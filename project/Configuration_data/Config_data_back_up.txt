@@ -1,0 +1,9 @@
+buildingid = 1
+address = mqtt://192.168.31.224:1883
+timeInterval = 10
+temperature = ttt1, T2, T3, T4, 5, 6, 3, 7, 8, ttt2
+pressure = P1, P2, p3
+flow = F1, f2, f3
+current = C1, C2
+switch = S1, S2, S3
+output = OP1, opppp2
