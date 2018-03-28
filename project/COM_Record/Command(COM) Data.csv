@@ -1,11 +1,8 @@
-Time,Integer,Integer,Float,Float,Time,"Integet
-"
-Command Time,Command ID,Command Type,Command Parameter 1,Command parameter 2,Action TIme,"Action status
-"
-2017-01-11 01:10:10,24,1,1.02,2.02,2018-01-23 20:57:02,1
-2017-01-11 01:10:10,24,1,1.02,2.02,,"0
-"
-2017-01-11 01:10:10,24,2,1.02,2.02,,"0
-"
-2017-01-11 01:10:10,24,2,1.02,2.02,,"0
-"
+Time,Integer,Integer,Float,Float,Time,Integet
+Command Time,Command ID,Command Type,Command Parameter 1,Command parameter 2,Action TIme,Action status
+2018-03-27 18:58:43,24,2,2.2,1.2,2018-03-27 18:58:43,1
+2018-03-27 18:58:46,24,2,2.2,1.2,2018-03-27 18:58:46,1
+2018-03-27 18:58:48,24,2,2.2,1.2,2018-03-27 18:58:48,1
+2018-03-27 18:58:49,24,2,2.2,1.2,2018-03-27 18:58:49,1
+2018-03-27 18:58:50,24,2,2.2,1.2,2018-03-27 18:58:50,1
+2018-03-27 18:59:22,25,2,2.2,1.2,2018-03-27 18:59:22,1

@@ -9,20 +9,26 @@ from opi import *
 from hbmqtt.client import MQTTClient, ClientException
 from hbmqtt.mqtt.constants import QOS_1, QOS_2
 
-#read building id, server address from file
+#read building id, server address and port number from file
 with open('./Configuration_data/Config_data.txt','r') as f:
     line1 = f.readline()
     line2 = f.readline()
+    line3 = f.readline()
+
 temp_l = line1.replace(' ', '')
 temp_l = temp_l.replace('\n', '')
 str_list = re.split(',|=', temp_l)
-
 building_id = str_list[1]
 
 temp_l = line2.replace(' ', '')
 temp_l = temp_l.replace('\n', '')
 str_list = re.split(',|=', temp_l)
 server_address = str_list[1]
+
+temp_l = line3.replace(' ', '')
+temp_l = temp_l.replace('\n', '')
+str_list = re.split(',|=', temp_l)
+port_num = str_list[1]
 
 #initialize controllers for OPI and COM
 opi_controller = OPI_Record()

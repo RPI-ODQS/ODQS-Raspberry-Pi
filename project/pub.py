@@ -1,80 +1,89 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2014 Roger Light <roger@atchoo.org>
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Distribution License v1.0
+# which accompanies this distribution.
+#
+# The Eclipse Distribution License is available at
+#   http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# Contributors:
+#    Roger Light - initial implementation
+
+# This shows an example of using the publish.single helper function.
+
+import paho  # Ensures paho is in PYTHONPATH
+import paho.mqtt.publish as publish
+
+
 import logging
 import asyncio
 import json
 
-from hbmqtt.client import MQTTClient, ConnectException
-from hbmqtt.mqtt.constants import QOS_1, QOS_2
 
-logger = logging.getLogger(__name__)
-
-config = {
-    'keep_alive': 10,
-    'ping_delay': 1,
-    'default_qos': 0,
-    'default_retain': False,
-    'auto_reconnect': True,
-    'reconnect_max_interval': 5,
-    'reconnect_retries': 10,
-    'topics': {
-        '/init': { 'qos': 1 },
-        '/data': { 'qos': 1 },
-        '/picture': { 'qos': 1 },
-        '/comRes': { 'qos': 1 },
-    }
-}
-
-@asyncio.coroutine
-def pub_comRes(temp, address, building_id):
-    C = MQTTClient(config=config)
-    yield from C.connect(address)
-    temp = json.dumps(temp)
-    temp = str.encode(temp)
-    print (temp)
-    tasks = [
-        asyncio.ensure_future(C.publish('/comRes/'+building_id, temp)),
-    ]
-    yield from asyncio.wait(tasks)
-    logger.info("messages published")
-    yield from C.disconnect()
+##from hbmqtt.client import MQTTClient, ConnectException
+##from hbmqtt.mqtt.constants import QOS_1, QOS_2
+##
+##logger = logging.getLogger(__name__)
+##
+##config = {
+##    'keep_alive': 10,
+##    'ping_delay': 1,
+##    'default_qos': 0,
+##    'default_retain': False,
+##    'auto_reconnect': True,
+##    'reconnect_max_interval': 5,
+##    'reconnect_retries': 10,
+##    'topics': {
+##        '/init': { 'qos': 1 },
+##        '/data': { 'qos': 1 },
+##        '/picture': { 'qos': 1 },
+##        '/comRes': { 'qos': 1 },
+##    }
+##}
 
 @asyncio.coroutine
-def pub_data(temp, address):
-    C = MQTTClient(config=config)
-    yield from C.connect(address)
-    temp = json.dumps(temp)
-    temp = str.encode(temp)
-    tasks = [
-        asyncio.ensure_future(C.publish('/data', temp)),
-    ]
-    yield from asyncio.wait(tasks)
-    logger.info("messages published")
-    yield from C.disconnect()
+def pub_comRes(temp, address, portnum, building_id):
+##    C = MQTTClient(config=config)
+##    yield from C.connect(address)
+    temp = str(temp)
+    publish.single('/comRes/'+building_id, temp, hostname=address, port = portnum)
+##    yield from asyncio.wait(tasks)
+##    logger.info("messages published")
+##    yield from C.disconnect()
 
 @asyncio.coroutine
-def pub_init(temp, address):
-    C = MQTTClient(config=config)
-    yield from C.connect(address)
-    temp = json.dumps(temp)
-    temp = str.encode(temp)
-    tasks = [
-        asyncio.ensure_future(C.publish('/init', temp)),
-    ]
-    yield from asyncio.wait(tasks)
-    logger.info("messages published")
-    yield from C.disconnect()
+def pub_data(temp, address, portnum):
+##    C = MQTTClient(config=config)
+##    yield from C.connect(address)
+    temp = str(temp)
+    publish.single('/data', temp, hostname=address, port = portnum)
+##    yield from asyncio.wait(tasks)
+##    logger.info("messages published")
+##    yield from C.disconnect()
+
+@asyncio.coroutine
+def pub_init(temp, address, portnum):
+##    C = MQTTClient(config=config)
+##    yield from C.connect(address)
+    temp = str(temp)
+    publish.single('/init', temp, hostname = address, port = portnum)
+##    yield from asyncio.wait(tasks)
+##    logger.info("messages published")
+##    yield from C.disconnect()
     
 @asyncio.coroutine
-def pub_picture(temp, address):
-    C = MQTTClient(config=config)
-    yield from C.connect(address)
-    #temp = json.dumps(temp)
-    temp = str.encode(temp)
-    tasks = [
-        asyncio.ensure_future(C.publish('/picture', temp)),
-    ]
-    yield from asyncio.wait(tasks)
-    logger.info("messages published")
-    yield from C.disconnect()
+def pub_picture(temp, address, portnum):
+##    C = MQTTClient(config=config)
+##    yield from C.connect(address)
+    temp = str(temp)
+    publish.single('/picture', temp, hostname = address, port = portnum)
+##    yield from asyncio.wait(tasks)
+##    logger.info("messages published")
+##    yield from C.disconnect()
 
 if __name__ == '__main__':
     temp =  {
@@ -117,5 +126,8 @@ if __name__ == '__main__':
         },
         "TimeStamp":"2017-12-08 17:39:38.972363"
     }
-    asyncio.get_event_loop().run_until_complete(test_coro(temp))
+    temp = json.dumps(temp)
+    temp = str.encode(temp)
+    publish.single('/data', temp, hostname = "120.79.195.55", port = 1883)
     
+

@@ -14,6 +14,7 @@ from button import *
 from ubi import *
 from pub import *
 
+print ("******")
 #read configuration parameters from file
 try:
     
@@ -36,6 +37,10 @@ try:
         server_address = parameters['address'][0]
     else :
         print ('No address in configuration file!')
+    if parameters['port'][0]:
+        port_num = int(parameters['port'][0])
+    else :
+        print ('No port number in configuration file!')
     if parameters['timeInterval'][0]:
         time_interval = int(parameters['timeInterval'][0])
     else :
@@ -74,7 +79,7 @@ except IOError:
 
 
 #send display name and building id to server to make sure the configuration data is the same
-data = {'BuildingId' : buildingID}
+data = {'buildingId' : buildingID}
 for i in range(len(tempNames)):
     data['temperature '+ str(i+1)] = tempNames[i]
 for i in range(len(waterPressureNames)):
@@ -88,9 +93,10 @@ for i in range(len(switchNames)):
 for i in range(len(outputNames)):
     data['output ' + str(i+1)] = outputNames[i]
 
-json_dic = json.dumps(data, sort_keys = True, indent = 4, separators = (',',':'))
+
 #send json to server
-asyncio.get_event_loop().run_until_complete(pub_init(json_dic, server_address))
+try:
+    asyncio.get_event_loop().run_until_complete(pub_init(data, server_address, port_num))
 
 try:
 
@@ -129,7 +135,7 @@ try:
     '''
     token = []
     date = datetime.datetime.now().strftime('%Y-%m-%d') + '.csv'
-    saveData = DataStore(server_address, buildingID, date, token, tempNames, waterPressureNames, flowRateNames, currentNames, switchNames, outputNames)
+    saveData = DataStore(server_address, port_num, buildingID, date, token, tempNames, waterPressureNames, flowRateNames, currentNames, switchNames, outputNames)
 
 
     '''

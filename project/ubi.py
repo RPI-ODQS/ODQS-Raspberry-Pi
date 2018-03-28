@@ -12,9 +12,10 @@ import datetime
 
 class DataStore:
 	
-    def __init__(self, server_address, buildingID, fileName, token, temperatureNames, pressureNames, waterFlowName, currentName, switchNames, outPutNames):
+    def __init__(self, server_address, portnum, buildingID, fileName, token, temperatureNames, pressureNames, waterFlowName, currentName, switchNames, outPutNames):
         
         self.server_address = server_address
+        self.portnum = portnum
         self.buildingID = buildingID
         self.fileName = fileName
         self.token = token
@@ -164,9 +165,13 @@ class DataStore:
             if output[i]:
                 data['output ' + str(i+1)] = output[i]
             write_data.append(output[i])
-        packet = {'BuildingId' : self.buildingID, 'TimeStamp' : time_stamp, 'Data' : data}
-        json_dic = json.dumps(packet, sort_keys = True, indent = 4, separators = (',',':'), ensure_ascii = True)
-        print (json_dic)
+        packet = {'buildingId' : self.buildingID, 'timeStamp' : time_stamp, 'data' : data}
+##        json_dic = json.dumps(packet, sort_keys = True, indent = 4, separators = (',',':'), ensure_ascii = True)
+##        print (json_dic)
+        
+        #send data to server
+        try:
+            asyncio.get_event_loop().run_until_complete(pub_data(packet, self.server_address, self.portnum))
         
         #new date, new file
         if datetime.datetime.now().strftime("%Y-%m-%d")+".csv" != self.fileName:
@@ -183,9 +188,6 @@ class DataStore:
                 print ("Could not write to file:" + self.fileName)
         finally:
                 f.close()
-        
-        #send data to server
-        asyncio.get_event_loop().run_until_complete(pub_data(json_dic, self.server_address))
 		
 def setNames(data_id_list, displayname_list):
     
