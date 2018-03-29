@@ -96,7 +96,13 @@ for i in range(len(outputNames)):
 
 #send json to server
 try:
+
     asyncio.get_event_loop().run_until_complete(pub_init(data, server_address, port_num))
+    print("Data sender initiated")
+
+except Error:
+    
+    print ("Could not connet to server:" + server_address + ":" + str(port_num))
 
 try:
 

@@ -172,7 +172,11 @@ class DataStore:
         #send data to server
         try:
             asyncio.get_event_loop().run_until_complete(pub_data(packet, self.server_address, self.portnum))
-        
+            print("Data sended")
+
+        except Error:
+    
+            print ("Could not connet to server:" + self.server_address + ":" + str(self.portnum))
         #new date, new file
         if datetime.datetime.now().strftime("%Y-%m-%d")+".csv" != self.fileName:
             self.fileName = datetime.datetime.now().strftime("%Y-%m-%d")+".csv"

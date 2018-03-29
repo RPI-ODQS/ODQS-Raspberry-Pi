@@ -12,12 +12,6 @@ def func_take_photo(command_parameter1, command_parameter2):
     #take photo and upload
     print('Taking photo with parameters: \"' + str(command_parameter1) + "," + str(command_parameter2) +"\"")
     
-    #test picture
-    with open('./pictures/test.jpg', 'rb') as f:
-        picture = base64.b64encode(f.read())
-    str_pic = picture.decode()
-    packet = {'buildingId': self.buildingId, 'time' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 'picture' : str_pic}
-    asyncio.get_event_loop().run_until_complete(pub_picture(packet, self.server_addr, self.port_num))
     return 1
     
 def func_function2(command_parameter1, command_parameter2):
@@ -76,8 +70,6 @@ class COM_Controller:
             temp = lines[i].split(',')
             data.append(temp)
         
-        print ('-------------data--------')
-        print (data)
         #find the target record according to com_id
         l = len(data)
         for i in range(len(data)):
@@ -113,10 +105,17 @@ class COM_Controller:
         
         if command_type == 1 :    #take photo
             out = func_take_photo(command_parameter1, command_parameter2)
+            #test picture
+            with open('./pictures/test.jpg', 'rb') as f:
+                picture = base64.b64encode(f.read())
+            str_pic = picture.decode()
+            packet = {'buildingId': self.buildingId, 'time' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 'picture' : str_pic}
+            asyncio.get_event_loop().run_until_complete(pub_picture(packet, self.server_addr, self.port_num))
+            
             self.com_set_status(com_id, out)
             return out
         elif command_type == 2 :    #function 2
-            out = func_function2(command_parameter1, command_parameter2)
+            out = self.func_function2(command_parameter1, command_parameter2)
             self.com_set_status(com_id, out)
             return out
         else:

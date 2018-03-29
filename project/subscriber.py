@@ -83,7 +83,7 @@ def update_display_name(input):
     data_id_list = data.keys()
     displayname_list = []
     for i in range(len(data_id_list)):
-        displayname_list.append(data_id_list[i])
+        displayname_list.append(data[data_id_list[i]])
     setNames(data_id_list, displayname_list)
 
 def on_connect(mqttc, obj, flags, rc):
