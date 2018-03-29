@@ -10,8 +10,9 @@ There is a "Config_data.txt" file in the "Configuration_data" folder.
 This file records information about this controller listed as below:
 	1. "buildingid = xxxx" : it stands for the buildingid of the building that this controller controls.
 	2. "address = xxxx" : it stands for the address of MQTT server.
-	3. "timeInterval = xxxx" : it stands for the time interval between the collection of SOS data.
-	4. "temperature = temp1, temp2, temp3" 
+	3. "port = xxxx" : it stands for the port the server open to this Raspberry Pi controller.
+	4. "timeInterval = xxxx" : it stands for the time interval between the collection of SOS data.
+	5. "temperature = temp1, temp2, temp3" 
 		"pressure = p1, p2, p3" : it stands for the number and the display names of the sensors.
 		For an example, in this case there are 3 temperature sensors whose dataID and names are : "temperature 1 --- temp1", "temperature 2 --- temp2", "temperature 3 --- temp3"
 
