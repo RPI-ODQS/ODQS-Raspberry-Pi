@@ -26,7 +26,7 @@ Be careful! There are rules for editing the "Config_data.txt" file:
 ---------------------------Launch--------------------------
 
 1. Please run the "main.py" with python3. This program would collect and send SOS data to sever.
-2. Please run the "listener.py" with python3. This program subscribes infomation from MQTT server.
+2. Please run the "subscriber.py" with python3. This program subscribes infomation from MQTT server.
 
 -------------------------Data files------------------------
 
