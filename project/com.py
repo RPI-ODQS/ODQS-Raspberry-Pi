@@ -31,7 +31,7 @@ class COM_Controller:
         self.buildingId = buildingId
         #record file exists, return
         if os.path.exists('./COM_Record/Command(COM) Data.csv'):
-            print ("File:\"COM_Record/Command(COM) Data.csv\"exsits. If you want to rewrite this file, please delete the file and restart the program.")
+            print ("File:\"COM_Record/Command(COM) Data.csv\"exsits. If you want to reset this file, please delete the file and restart the program.")
             return
         
         #Write file header

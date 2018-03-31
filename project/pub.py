@@ -13,6 +13,7 @@ def pub_comRes(temp, address, portnum, building_id):
         temp = str(temp)
         publish.single('/comRes/'+building_id, temp, hostname=address, port = portnum)
     except:
+        print("Error: pub_comRes")
 
 #publish data
 @asyncio.coroutine
@@ -22,7 +23,7 @@ def pub_data(temp, address, portnum):
         temp = str(temp)
         publish.single('/data', temp, hostname=address, port = portnum)
     except:
-
+        print("Error: pub_data")
 #publish picture
 @asyncio.coroutine
 def pub_init(temp, address, portnum):
@@ -31,7 +32,7 @@ def pub_init(temp, address, portnum):
         temp = str(temp)
         publish.single('/init', temp, hostname = address, port = portnum)
     except:
-
+        print ("Error: pub_init")
 #publish picture
 @asyncio.coroutine
 def pub_picture(temp, address, portnum):
@@ -39,3 +40,4 @@ def pub_picture(temp, address, portnum):
         temp = str(temp)
         publish.single('/picture', temp, hostname = address, port = portnum)
     except:
+        print ("Error: pub_picture")
