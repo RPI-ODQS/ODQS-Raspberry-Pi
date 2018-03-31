@@ -138,7 +138,6 @@ class DataStore:
         #produce data to send and to write
         write_data = [time_stamp]
         #transfer data into json
-        #packet = {'Building ID' : self.buildingID, 'Time Stamp' : time_stamp, 'Data' : data}
         data = {}
         write_data = [time_stamp]
         for i in range(len(temperature)):
@@ -166,16 +165,12 @@ class DataStore:
                 data['output ' + str(i+1)] = output[i]
             write_data.append(output[i])
         packet = {'buildingId' : self.buildingID, 'timeStamp' : time_stamp, 'data' : data}
-##        json_dic = json.dumps(packet, sort_keys = True, indent = 4, separators = (',',':'), ensure_ascii = True)
-##        print (json_dic)
         
         #send data to server
         try:
             asyncio.get_event_loop().run_until_complete(pub_data(packet, self.server_address, self.portnum))
             print("Data sended")
-
-        except Error:
-    
+        except:
             print ("Could not connet to server:" + self.server_address + ":" + str(self.portnum))
         #new date, new file
         if datetime.datetime.now().strftime("%Y-%m-%d")+".csv" != self.fileName:
@@ -195,7 +190,7 @@ class DataStore:
 		
 def setNames(data_id_list, displayname_list):
     
-    #open configuration data file
+    #read current configuration file
     with open('./Configuration_data/Config_data.txt','r') as f:
         lines = f.readlines()
     
@@ -207,43 +202,14 @@ def setNames(data_id_list, displayname_list):
         line_name = str_list[0]
         del str_list[0]
         parameters[line_name] = str_list
-
-    print (parameters)    
+    
+    #change the data in the configuration file
     for i in range(len(data_id_list)):
         temp_data_id = data_id_list[i].split()
         print('Display name of data \"' + data_id_list[i] +'\" changed: ' + parameters[temp_data_id[0]][int(temp_data_id[1])-1] + '-->' +displayname_list[i])
         parameters[temp_data_id[0]][int(temp_data_id[1])-1] = displayname_list[i]
     
-    if parameters['buildingid'][0] :
-        buildingID = parameters['buildingid'][0]
-    else :
-        print ("No buildingid in configuration file")
-    if parameters['temperature'] :
-        tempNames = parameters['temperature']
-    else :
-        print ("No temperature in configuration file")
-    if parameters['pressure']: 
-        pressureNames = parameters['pressure']
-    else :
-        print ("No pressure in configuration file")
-    if parameters['flow']:
-        waterflowName = parameters['flow']
-    else:
-        print ("No flow in configuration file")
-    if parameters['current'] :
-        currentNames = parameters['current']
-    else:
-        print ("No current in configuration file")
-    if parameters['switch']:
-        switchNames = parameters['switch']
-    else:
-        print ("No switch in configuration file")
-    if parameters['output']:
-        outputNames = parameters['output']
-    else:
-        print ("No output in configuration file")
-     
-    
+    #rows in configuration file
     rows = []
     rows.append('buildingid = '+ buildingID)
     rows.append('address = ' + parameters['address'][0])
@@ -314,10 +280,8 @@ def setNames(data_id_list, displayname_list):
     for i in range(len(outputNames)) :
         dataID_row.append("Output " + str(i+1))
         unit_row.append("Undefined")
-	    
-	    
-            
-    #update Config data
+        
+    #write configuration file
     try:
         file_obj = open('./Configuration_data/Config_data.txt', 'w')
         for i in range(len(rows)):
@@ -328,7 +292,7 @@ def setNames(data_id_list, displayname_list):
         print ("Could not write to file:/Configuration_data/Config_data.txt")
     finally:
         file_obj.close()
-    #update property
+    #write sos property file
     try:
         f = open('./SOS_data/data_property.csv','w')
         writer = csv.writer(f)

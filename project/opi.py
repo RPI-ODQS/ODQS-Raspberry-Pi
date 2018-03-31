@@ -10,7 +10,7 @@ class OPI_Record:
         
         #record file exists, return
         if os.path.exists('./OPI_Record/Optimization Input(OPI) Data.csv'):
-            print ("File:\"OPI_Record/Optimization Input(OPI) Data.csv\"exsits. If you want to rewrite this file, please delete the file and restart the program")
+            print ("File:\"OPI_Record/Optimization Input(OPI) Data.csv\"exsits. If you want to reset this file, please delete the file and restart the program")
             return
         
         #Write file header
@@ -36,7 +36,7 @@ class OPI_Record:
             unit_row.append('Float')
             dataID_row.append('Demand Response ' + str(i+1))
         
-        
+        #write to file
         try:
             f = open('./OPI_Record/Optimization Input(OPI) Data.csv','w')
             writer = csv.writer(f)
@@ -59,9 +59,6 @@ class OPI_Record:
         self.ambient_temperature = ambient_temperature
         self.solar_generation = solar_generation
         self.demand_response = demand_response
-        
-        print(optimization_parameter)
-        print(hot_water_demand)
         
         entry = [time]
         entry.append(optimization_type)

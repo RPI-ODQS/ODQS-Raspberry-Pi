@@ -100,7 +100,7 @@ try:
     asyncio.get_event_loop().run_until_complete(pub_init(data, server_address, port_num))
     print("Data sender initiated")
 
-except Error:
+except:
     
     print ("Could not connet to server:" + server_address + ":" + str(port_num))
 
@@ -175,9 +175,6 @@ try:
     print btn.isDown()
     print btn.isUp()
     '''	
-    start = datetime.datetime.now()
-    
-    seconds = 0
     while True:
         
         #random data for testing
@@ -254,23 +251,11 @@ try:
 	'''	
 	
 	
-        start = datetime.datetime.now()
-        #str_time = str(start)
-        #print (start)
+
         saveData.saveAllData(temp, pres, flowRate, cur, switch, output)
         #wait for some seconds
-        elapsed_ms = 0
-        flag = 0
         print("-----------------Now sleeping for " + str(time_interval) + " seconds-----------------")
-        
         time.sleep(time_interval)
-##        while(elapsed_ms < time_interval*1000):
-##            end = datetime.datetime.now()
-##            diff = end - start
-##            elapsed_ms = (diff.days * 86400000) + (diff.seconds * 1000) + (diff.microseconds / 1000)
-##            if elapsed_ms/1000 >= flag and flag < 10:
-##                flag += 1
-##                seconds += 1
 
 finally: 
     '''

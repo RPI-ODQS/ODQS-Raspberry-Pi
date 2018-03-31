@@ -1,21 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
-# Copyright (c) 2010-2013 Roger Light <roger@atchoo.org>
-#
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Eclipse Distribution License v1.0
-# which accompanies this distribution.
-#
-# The Eclipse Distribution License is available at
-#   http://www.eclipse.org/org/documents/edl-v10.php.
-#
-# Contributors:
-#    Roger Light - initial implementation
-# Copyright (c) 2010,2011 Roger Light <roger@atchoo.org>
-# All rights reserved.
-
-# This shows a simple example of an MQTT subscriber.
 from ubi import *
 from com import *
 from opi import *
@@ -25,26 +7,28 @@ import logging
 import asyncio
 
 #read building id, server address and port number from file
-with open('./Configuration_data/Config_data.txt','r') as f:
-    line1 = f.readline()
-    line2 = f.readline()
-    line3 = f.readline()
+try:
+    with open('./Configuration_data/Config_data.txt','r') as f:
+        line1 = f.readline()
+        line2 = f.readline()
+        line3 = f.readline()
 
-temp_l = line1.replace(' ', '')
-temp_l = temp_l.replace('\n', '')
-str_list = re.split(',|=', temp_l)
-building_id = str_list[1]
+    temp_l = line1.replace(' ', '')
+    temp_l = temp_l.replace('\n', '')
+    str_list = re.split(',|=', temp_l)
+    building_id = str_list[1]
 
-temp_l = line2.replace(' ', '')
-temp_l = temp_l.replace('\n', '')
-str_list = re.split(',|=', temp_l)
-server_address = str_list[1]
+    temp_l = line2.replace(' ', '')
+    temp_l = temp_l.replace('\n', '')
+    str_list = re.split(',|=', temp_l)
+    server_address = str_list[1]
 
-temp_l = line3.replace(' ', '')
-temp_l = temp_l.replace('\n', '')
-str_list = re.split(',|=', temp_l)
-port_num = int(str_list[1])
-
+    temp_l = line3.replace(' ', '')
+    temp_l = temp_l.replace('\n', '')
+    str_list = re.split(',|=', temp_l)
+    port_num = int(str_list[1])
+except:
+    print("Error: The configuration file may be broken.")
 #initialize controllers for OPI and COM
 opi_controller = OPI_Record()
 com_controller = COM_Controller(server_address, port_num, building_id)
@@ -106,6 +90,8 @@ def on_message(mqttc, obj, msg):
         elif msg.topic == '/name/' + building_id:
             update_display_name(payload)
         print("--------------------Subscribing--------------------")
+        print("Server Address: " + server_address + ":" + str(port_num))
+        print("BuildingId: " + building_id)
     except:
         print ("Something went wrong")
 def on_publish(mqttc, obj, mid):
@@ -118,9 +104,6 @@ def on_subscribe(mqttc, obj, mid, granted_qos):
 
 def on_log(mqttc, obj, level, string):
     print(string)
-
-##test_com = {'time' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 'id' : 25, 'type' : 2, 'parameterVar1' : 2.2, 'parameterVar2': 1.2}
-##new_command(test_com)
 
 # If you want to use a specific client id, use
 # mqttc = mqtt.Client("client-id")
