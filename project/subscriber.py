@@ -78,12 +78,15 @@ def new_command(data):
     com_controller.new_command(time, com_id, com_type, com_p1, com_p2)
 
 #update display names in the input
-def update_display_name(input):
-    data = json.loads(input)
-    data_id_list = data.keys()
+def update_display_name(data):
+    data_id_list = []
     displayname_list = []
-    for i in range(len(data_id_list)):
-        displayname_list.append(data[data_id_list[i]])
+    for k, v in data.items():
+        print ("---")
+        print (k)
+        print (v)
+        data_id_list.append(k)
+        displayname_list.append(v)
     setNames(data_id_list, displayname_list)
 
 def on_connect(mqttc, obj, flags, rc):
@@ -93,15 +96,18 @@ def on_connect(mqttc, obj, flags, rc):
     mqttc.subscribe('/name/' + building_id, 0)
 
 def on_message(mqttc, obj, msg):
-    print(msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
-    payload = eval(msg.payload)
-    if msg.topic == '/comReq/' + building_id:
-        new_command(payload)
-    elif msg.topic == '/opi/' + building_id:
-        new_opi(payload)
-    elif msg.topic == '/name/' + building_id:
-        update_display_name(payload)
-    print("--------------------Subscribing--------------------")
+    try:
+        print(msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
+        payload = eval(msg.payload)
+        if msg.topic == '/comReq/' + building_id:
+            new_command(payload)
+        elif msg.topic == '/opi/' + building_id:
+            new_opi(payload)
+        elif msg.topic == '/name/' + building_id:
+            update_display_name(payload)
+        print("--------------------Subscribing--------------------")
+    except:
+        print ("Something went wrong")
 def on_publish(mqttc, obj, mid):
     print("mid: " + str(mid))
 

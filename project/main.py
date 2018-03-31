@@ -251,26 +251,26 @@ try:
 	print("Current: {} A".format(cur[3]))    
 	print "--------------------------------------------"  
 		
-		
-	print("nowSleeping")
-	'''
+	'''	
+	
 	
         start = datetime.datetime.now()
         #str_time = str(start)
         #print (start)
         saveData.saveAllData(temp, pres, flowRate, cur, switch, output)
-        #wait 10 second
+        #wait for some seconds
         elapsed_ms = 0
         flag = 0
-
-        while(elapsed_ms < time_interval*1000):
-            end = datetime.datetime.now()
-            diff = end - start
-            elapsed_ms = (diff.days * 86400000) + (diff.seconds * 1000) + (diff.microseconds / 1000)
-            if elapsed_ms/1000 >= flag and flag < 10:
-                flag += 1
-                seconds += 1
-                print ('Sleeping---' + str(flag))
+        print("-----------------Now sleeping for " + str(time_interval) + " seconds-----------------")
+        
+        time.sleep(time_interval)
+##        while(elapsed_ms < time_interval*1000):
+##            end = datetime.datetime.now()
+##            diff = end - start
+##            elapsed_ms = (diff.days * 86400000) + (diff.seconds * 1000) + (diff.microseconds / 1000)
+##            if elapsed_ms/1000 >= flag and flag < 10:
+##                flag += 1
+##                seconds += 1
 
 finally: 
     '''

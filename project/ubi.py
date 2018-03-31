@@ -203,11 +203,12 @@ def setNames(data_id_list, displayname_list):
     for line in lines:
         temp_l = line.replace(' ', '')
         temp_l = temp_l.replace('\n', '')
-        str_list = re.split(',|:', temp_l)
+        str_list = re.split(',|=', temp_l)
         line_name = str_list[0]
         del str_list[0]
         parameters[line_name] = str_list
-    
+
+    print (parameters)    
     for i in range(len(data_id_list)):
         temp_data_id = data_id_list[i].split()
         print('Display name of data \"' + data_id_list[i] +'\" changed: ' + parameters[temp_data_id[0]][int(temp_data_id[1])-1] + '-->' +displayname_list[i])
@@ -244,38 +245,41 @@ def setNames(data_id_list, displayname_list):
      
     
     rows = []
-    rows.append('buildingid: '+ buildingID)
-    row = 'temperature: '
+    rows.append('buildingid = '+ buildingID)
+    rows.append('address = ' + parameters['address'][0])
+    rows.append('port = ' + parameters['port'][0])
+    rows.append('timeInterval = ' + parameters['timeInterval'][0])
+    row = 'temperature = '
     for i in range(len(tempNames)):
         row = row + tempNames[i]
         if i < len(tempNames)-1:
             row = row + ', '
     rows.append(row)
-    row = 'pressure: '
+    row = 'pressure = '
     for i in range(len(pressureNames)):
         row = row + pressureNames[i]
         if i < len(pressureNames)-1:
             row = row + ', '
     rows.append(row)
-    row = 'flow: '
+    row = 'flow = '
     for i in range(len(waterflowName)):
         row = row + waterflowName[i]
         if i < len(waterflowName)-1:
             row = row + ', '
     rows.append(row)
-    row = 'current: '
+    row = 'current = '
     for i in range(len(currentNames)):
         row = row + currentNames[i]
         if i < len(currentNames)-1:
             row = row + ', '
     rows.append(row)
-    row = 'switch: '
+    row = 'switch = '
     for i in range(len(switchNames)):
         row = row + switchNames[i]
         if i < len(switchNames)-1:
             row = row + ', '
     rows.append(row)
-    row = 'output: '
+    row = 'output = '
     for i in range(len(outputNames)):
         row = row + outputNames[i]
         if i < len(outputNames)-1:
