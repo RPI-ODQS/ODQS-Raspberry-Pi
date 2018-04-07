@@ -35,7 +35,7 @@ class COM_Controller:
             return
         
         #Write file header
-        unit_row = ['Time', 'Integer', 'Integer', 'Float', 'Float', 'Time', 'Integet']
+        unit_row = ['Time', 'Integer', 'Integer', 'Float', 'Float', 'Time', 'Integer']
         dataID_row = ['Command Time','Command ID', 'Command Type', 'Command Parameter 1', 'Command parameter 2', 'Action TIme', 'Action status']
         
         try:
