@@ -115,7 +115,7 @@ class COM_Controller:
             self.com_set_status(com_id, out)
             return out
         elif command_type == 2 :    #function 2
-            out = self.func_function2(command_parameter1, command_parameter2)
+            out = func_function2(command_parameter1, command_parameter2)
             self.com_set_status(com_id, out)
             return out
         else:
